@@ -29,23 +29,55 @@ TECNOLOGIAS UTILIZADAS
 ESTRUTURA DE PASTAS
 ------------------------------------------------------------
 
-RPG/
-├─ src/
-│  ├─ main/
-│  │  ├─ java/
-│  │  │  └─ org/example/
-│  │  │     ├─ Main.java
-│  │  │     └─ MapaTiled.java
-│  │  └─ resources/
-│  │     ├─ map/
-│  │     │  ├─ mapa.tmx
-│  │     │  └─ tiles.tsx
-│  │     ├─ sprites/
-│  │     │  └─ player_walk.png
-│  │     └─ tiles/
-│  │        └─ tileset.png
-├─ pom.xml
-├─ .gitignore
+RPG
+|
+|-- .idea
+|   |-- compiler.xml
+|   |-- encodings.xml
+|   |-- jarRepositories.xml
+|   |-- misc.xml
+|   |-- workspace.xml
+|
+|-- .mvn
+|
+|-- src
+|   |
+|   |-- main
+|   |   |
+|   |   |-- java
+|   |   |   |
+|   |   |   |-- org
+|   |   |       |
+|   |   |       |-- example
+|   |   |           |
+|   |   |           |-- Main.java
+|   |   |           |-- MapaTiled.java
+|   |   |
+|   |   |-- resources
+|   |       |
+|   |       |-- map
+|   |       |   |
+|   |       |   |-- mapa.tmx
+|   |       |   |-- tiles.tsx
+|   |       |
+|   |       |-- sprites
+|   |       |   |
+|   |       |   |-- player_walk.png
+|   |       |
+|   |       |-- tiles
+|   |           |
+|   |           |-- tileset.png
+|
+|-- test
+|   |
+|   |-- java
+|
+|-- target
+|
+|-- .gitignore
+|
+|-- pom.xml
+
 
 OBS:
 As pastas .idea/ e target/ NÃO devem ser enviadas para o GitHub.
