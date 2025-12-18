@@ -11,13 +11,23 @@ import java.util.List;
 
 public class MapaTiled {
 
+    private final List<NPC> npcs = new ArrayList<>();
+
+    public List<NPC> getNPCs() {
+        return npcs;
+    }
+
+
+
     // ===== DADOS DO MAPA =====
     private int mapWidthTiles;
     private int mapHeightTiles;
     private int tileSize;
 
     // ===== CAMADAS =====
-    private final List<int[][]> layers = new ArrayList<>();
+    private final List<int[][]> layersBase = new ArrayList<>();
+    private final List<int[][]> layersTopo = new ArrayList<>();
+    private int[][] camadaColisao;
 
     // ===== TILESET =====
     private Image tileset;
@@ -61,9 +71,6 @@ public class MapaTiled {
                 InputStream tsxStream =
                         getClass().getResourceAsStream("/" + tsxPath);
 
-                if (tsxStream == null)
-                    throw new RuntimeException("TSX não encontrado: " + tsxPath);
-
                 tilesetDoc = DocumentBuilderFactory.newInstance()
                         .newDocumentBuilder()
                         .parse(tsxStream);
@@ -83,19 +90,19 @@ public class MapaTiled {
                 imageSource = imageSource.substring(3);
             }
 
-            tileset = new Image(
-                    getClass().getResourceAsStream("/" + imageSource)
-            );
-
+            tileset = new Image(getClass().getResourceAsStream("/" + imageSource));
             tilesetCols = (int) (tileset.getWidth() / tileSize);
 
-            // ===== TODAS AS CAMADAS =====
+            // ===== CAMADAS =====
             NodeList layerNodes = map.getElementsByTagName("layer");
 
             for (int l = 0; l < layerNodes.getLength(); l++) {
 
                 Element layer = (Element) layerNodes.item(l);
-                Element data = (Element) layer.getElementsByTagName("data").item(0);
+                String nomeLayer = layer.getAttribute("name").toLowerCase();
+
+                Element data = (Element) layer
+                        .getElementsByTagName("data").item(0);
 
                 String[] raw = data.getTextContent().trim().split(",");
 
@@ -103,10 +110,7 @@ public class MapaTiled {
 
                 int index = 0;
                 for (String r : raw) {
-                    r = r.trim();
-                    if (r.isEmpty()) continue;
-
-                    int tileId = Integer.parseInt(r);
+                    int tileId = Integer.parseInt(r.trim());
                     int y = index / mapWidthTiles;
                     int x = index % mapWidthTiles;
 
@@ -114,16 +118,55 @@ public class MapaTiled {
                     index++;
                 }
 
-                layers.add(tiles);
+                switch (nomeLayer) {
+                    case "colisao" -> camadaColisao = tiles;
+                    case "topo" -> layersTopo.add(tiles);
+                    default -> layersBase.add(tiles);
+                }
             }
+
+            // ===== NPCs (Object Layer) =====
+            NodeList objectGroups = map.getElementsByTagName("objectgroup");
+
+            for (int i = 0; i < objectGroups.getLength(); i++) {
+                Element group = (Element) objectGroups.item(i);
+
+                if (!group.getAttribute("name").toLowerCase().startsWith("npc1"))
+                    continue;
+
+
+                NodeList objects = group.getElementsByTagName("object");
+
+                for (int j = 0; j < objects.getLength(); j++) {
+                    Element obj = (Element) objects.item(j);
+
+                    double x = Double.parseDouble(obj.getAttribute("x"));
+                    double y = Double.parseDouble(obj.getAttribute("y"));
+
+                    Image spriteNpc = new Image(
+                            getClass().getResourceAsStream("/sprites/magonpc.png")
+                    );
+
+                    npcs.add(new NPC(x, y, spriteNpc));
+                }
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // ===== DESENHA TODAS AS CAMADAS =====
-    public void desenhar(GraphicsContext gc) {
+    // ===== DESENHO =====
+    public void desenharBase(GraphicsContext gc) {
+        desenharCamadas(gc, layersBase);
+    }
+
+    public void desenharTopo(GraphicsContext gc) {
+        desenharCamadas(gc, layersTopo);
+    }
+
+    private void desenharCamadas(GraphicsContext gc, List<int[][]> layers) {
         for (int[][] layer : layers) {
             for (int y = 0; y < mapHeightTiles; y++) {
                 for (int x = 0; x < mapWidthTiles; x++) {
@@ -145,16 +188,26 @@ public class MapaTiled {
         }
     }
 
-    // ===== GETTERS (ESSENCIAIS PRA CÂMERA E COLISÃO) =====
-
-    public int getMapWidthTiles() {
-        return mapWidthTiles;
+    public void desenharNPCs(GraphicsContext gc) {
+        for (NPC npc : npcs) {
+            npc.desenhar(gc);
+        }
     }
 
-    public int getMapHeightTiles() {
-        return mapHeightTiles;
+
+    // ===== COLISÃO =====
+    public boolean isSolido(int tileX, int tileY) {
+
+        if (camadaColisao == null) return false;
+
+        if (tileX < 0 || tileY < 0 ||
+                tileX >= mapWidthTiles || tileY >= mapHeightTiles)
+            return true;
+
+        return camadaColisao[tileY][tileX] != -1;
     }
 
+    // ===== GETTERS =====
     public int getTileSize() {
         return tileSize;
     }
