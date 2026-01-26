@@ -117,36 +117,56 @@ public class Main extends Application {
     }
 
     private void moverX(double dx) {
-        double novoX = jogadorX + dx;
-        double hx = novoX + HITBOX_OFFSET_X;
-        double hy = jogadorY + HITBOX_OFFSET_Y;
+        if (dx == 0) return;
 
-        if (!colideMapa(hx, hy) && !colideNPC(hx, hy)) {
+        double novoX = jogadorX + dx;
+
+        double hitLeft   = novoX + HITBOX_OFFSET_X;
+        double hitRight  = hitLeft + HITBOX_LARGURA;
+        double hitTop    = jogadorY + HITBOX_OFFSET_Y;
+        double hitBottom = hitTop + HITBOX_ALTURA;
+
+        if (!colideMapa(hitLeft, hitRight, hitTop, hitBottom) &&
+                !colideNPC(hitLeft, hitTop)) {
             jogadorX = novoX;
         }
     }
 
-    private void moverY(double dy) {
-        double novoY = jogadorY + dy;
-        double hx = jogadorX + HITBOX_OFFSET_X;
-        double hy = novoY + HITBOX_OFFSET_Y;
 
-        if (!colideMapa(hx, hy) && !colideNPC(hx, hy)) {
+    private void moverY(double dy) {
+        if (dy == 0) return;
+
+        double novoY = jogadorY + dy;
+
+        double hitLeft   = jogadorX + HITBOX_OFFSET_X;
+        double hitRight  = hitLeft + HITBOX_LARGURA;
+        double hitTop    = novoY + HITBOX_OFFSET_Y;
+        double hitBottom = hitTop + HITBOX_ALTURA;
+
+        if (!colideMapa(hitLeft, hitRight, hitTop, hitBottom) &&
+                !colideNPC(hitLeft, hitTop)) {
             jogadorY = novoY;
         }
     }
 
-    private boolean colideMapa(double hitX, double hitY) {
+
+    private boolean colideMapa(
+            double left, double right,
+            double top, double bottom
+    ) {
         int t = mapa.getTileSize();
 
-        int l = (int) (hitX / t);
-        int r = (int) ((hitX + HITBOX_LARGURA - 1) / t);
-        int u = (int) (hitY / t);
-        int d = (int) ((hitY + HITBOX_ALTURA - 1) / t);
+        int tileLeft   = (int) Math.floor(left / t);
+        int tileRight  = (int) Math.floor((right - 1) / t);
+        int tileTop    = (int) Math.floor(top / t);
+        int tileBottom = (int) Math.floor((bottom - 1) / t);
 
-        return mapa.isSolido(l,u) || mapa.isSolido(r,u) ||
-                mapa.isSolido(l,d) || mapa.isSolido(r,d);
+        return mapa.isSolido(tileLeft, tileTop) ||
+                mapa.isSolido(tileRight, tileTop) ||
+                mapa.isSolido(tileLeft, tileBottom) ||
+                mapa.isSolido(tileRight, tileBottom);
     }
+
 
     private boolean colideNPC(double hitX, double hitY) {
         for (NPC npc : mapa.getNPCs()) {
