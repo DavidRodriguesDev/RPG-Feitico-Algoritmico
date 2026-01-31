@@ -1,11 +1,150 @@
+# 🎮 FEITIÇO ALGORÍTMICO - Guia Rápido
 
+> RPG educacional para aprender Java enquanto joga!
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at ipsum ultrices, interdum nibh vitae, volutpat lorem. Fusce viverra sapien ac dapibus porta. Cras eu tortor augue. In hac habitasse platea dictumst. Mauris ligula elit, volutpat non volutpat congue, sollicitudin ac ipsum. Etiam feugiat mi non hendrerit varius. Quisque tincidunt urna pharetra tortor vulputate congue. Fusce in facilisis felis. Donec at nisl pulvinar, lacinia felis et, efficitur leo. Morbi vel accumsan sem. Nulla placerat nulla non quam bibendum condimentum.
+---
 
-Vestibulum non ipsum molestie, molestie tellus consequat, pulvinar est. Quisque rutrum vehicula nisl, vel dapibus nulla lacinia a. Etiam vulputate eros eu gravida vestibulum. Vivamus nec purus vel magna tempus malesuada vitae nec dui. Morbi ligula dui, cursus id eros et, venenatis scelerisque nisi. Etiam ornare mollis tellus, ut rhoncus dolor cursus nec. Aenean sit amet arcu justo. Donec ut dignissim orci, ut lacinia tellus. Phasellus bibendum varius risus, ut gravida felis egestas eu. Maecenas maximus aliquam blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin iaculis id sapien vitae tempor. Aenean aliquet magna quis nulla blandit pulvinar. Suspendisse rhoncus porttitor lacus volutpat convallis. Nullam id augue aliquam, malesuada eros vitae, semper elit. Praesent eget ex vitae lacus luctus sagittis.
+## 🎯 O que é?
 
-Phasellus consequat eget sapien ut fermentum. Integer vitae tincidunt turpis, tristique ultricies elit. Vestibulum in justo quis mi fringilla dapibus at vitae risus. Nunc placerat finibus odio at tristique. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ut tincidunt arcu. Integer non metus tempor, scelerisque risus ac, molestie neque. Morbi tempor ante at commodo semper. Proin commodo mollis ornare. Nulla eros lacus, feugiat ut porta eu, venenatis at massa.
+Um jogo onde você derrota bugs (literalmente!) completando código Java. Feito para ensinar Programação Orientada a Objetos de forma divertida.
 
-Suspendisse potenti. Nunc ut velit interdum, tempor tortor at, venenatis est. Fusce id consectetur felis, et vulputate mi. Vestibulum imperdiet ipsum quis nibh porta lacinia. Integer tortor nibh, rutrum vel enim quis, dictum dignissim nunc. Nulla lacinia consectetur purus vel convallis. Etiam est risus, consequat a dignissim vel, sagittis sed mauris. Nullam vel leo urna.
+---
 
-Sed venenatis felis et nunc aliquet tincidunt. Fusce laoreet ac urna eget faucibus. Aliquam ac hendrerit dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu facilisis dolor. Maecenas pulvinar vehicula porta. In malesuada elit in turpis lacinia, sit amet ornare metus tempor. In feugiat efficitur orci. Nam et tincidunt odio, at tincidunt nibh. Mauris a eros facilisis, dignissim sem eu, feugiat nisi. Morbi semper ante sed felis suscipit, et consectetur mauris aliquam. Nunc pulvinar congue sem at pellentesque. In hac habitasse platea dictumst. Aenean ut rhoncus lacus. Nam sodales pretium ullamcorper. 
+## 🚀 Como Rodar (Rápido!)
+
+### 1. Você vai precisar:
+- Java 17 ou superior
+- IntelliJ IDEA (ou outra IDE)
+- Maven
+
+### 2. Passos:
+
+```bash
+# Clone o projeto
+git clone [URL-DO-REPOSITORIO]
+
+# Abra no IntelliJ
+# File → Open → [pasta do projeto]
+
+# No terminal do IntelliJ:
+mvn clean install
+mvn javafx:run
+```
+
+### ⚠️ ATENÇÃO!
+**NÃO rode com `java Main`**
+**USE SEMPRE: `mvn javafx:run`**
+
+O JavaFX precisa do Maven para funcionar!
+
+---
+
+## 🎮 Como Jogar
+
+### Controles:
+- **WASD** ou **Setas**: Andar
+- **SHIFT**: Correr
+- **E**: Conversar/Avançar diálogo
+- **Números**: Responder questões
+- **Enter**: Confirmar resposta
+
+### Objetivo:
+1. Fale com o Mago (centro do mapa)
+2. Vença a batalha do tutorial
+3. Entre no portal que aparece
+4. Encontre e derrote o Bug gigante
+5. Assista os créditos!
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+org/example/
+├── Main.java              → Jogo principal
+├── entidades/             → Player, Inimigos, NPCs
+├── sistemas/combate/      → Batalhas e questões
+├── sistemas/mundo/        → Mapas
+└── util/                  → Constantes
+```
+
+---
+
+## 🏗️ Conceitos POO Usados
+
+### Hierarquia de Classes:
+```
+Entidade
+  ├─ Personagem
+  │   ├─ Player (você)
+  │   └─ Inimigo
+  │       ├─ Mago
+  │       └─ Bug
+  └─ NPC
+```
+
+### Os 4 Pilares:
+✅ **Encapsulamento**: Dados privados
+✅ **Herança**: Classes filhas herdam dos pais
+✅ **Polimorfismo**: Mesmo código, comportamentos diferentes
+✅ **Abstração**: Classes abstratas definem contratos
+
+---
+
+## 🐛 Problemas Comuns
+
+### "Module not found: javafx"
+👉 Use `mvn javafx:run`, não `java Main`
+
+### Tela preta
+👉 `mvn clean install` e tente de novo
+
+### Erro ao carregar mapa
+👉 Verifique se tem `mapa.tmx` em `src/main/resources/map/`
+
+---
+
+## 👥 Quem Fez
+
+**Desenvolvimento:**
+- David Rodrigues
+- Guilherme Rufino
+- Arthur Vieira
+- João Gomes
+- Fernando
+- Arthur
+
+**Obrigado por jogar!** ❤️
+
+---
+
+## 🎓 Use para Estudar!
+
+Este projeto é perfeito para:
+- Aprender POO na prática
+- Ver hierarquia de classes funcionando
+- Entender polimorfismo
+- Trabalhar com JavaFX
+
+---
+
+## 📊 Números do Projeto
+
+- **13 classes** organizadas
+- **3 níveis** de herança
+- **~2400 linhas** de código
+- **15+ questões** de Java
+- **100% POO** aplicado
+
+---
+
+## 💡 Dica Final
+
+Quanto mais rápido você responder as questões, mais dano vai causar nos inimigos! ⚡
+
+**Boa sorte e bom código!** 🚀
+
+---
+
+### Feito com ❤️ e Java
+
